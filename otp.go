@@ -13,6 +13,7 @@ import (
 	"hash"
 	"math"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -76,11 +77,26 @@ func dt(hs []byte) []byte {
 	return p
 }
 
-// GOTP retorns a google authenticator style 6 digit OTP
+// GOTP returns a google authenticator style 6 digit OTP
 // from a secret with 30 sec. interval time
 func (otp *OneTimePassword) GOTP(secret string) (code string, err error) {
 	sec_decoded, err := base32.StdEncoding.DecodeString(secret)
 	code = fmt.Sprintf("%06s", strconv.FormatUint(uint64(otp.TOTP(sec_decoded)), 10))
 
 	return
+}
+
+// Pprint returns a given code "pretty printed", i.e. divided in two or three blocks
+func (otp *OneTimePassword) PPrint(code string) string {
+	blocksize := 3
+	offset := 0
+	pcode := ""
+	for len(code) > offset+blocksize-1 {
+		pcode += fmt.Sprintf("%s ", code[offset:offset+blocksize])
+		offset += blocksize
+	}
+	// remainder
+	pcode += code[offset:]
+
+	return strings.TrimSpace(pcode)
 }
