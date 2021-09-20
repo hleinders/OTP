@@ -1,11 +1,13 @@
 onetime
 =======
 
-An one-time password generation library written in Go, implementing 
-HOTP ([RFC-4226](http://tools.ietf.org/html/rfc4226)) and 
+Original Work by Zitao Zhang (https://github.com/gwwfps/onetime)
+
+An one-time password generation library written in Go, implementing
+HOTP ([RFC-4226](http://tools.ietf.org/html/rfc4226)) and
 TOTP ([RFC-6238](http://tools.ietf.org/html/rfc6238)).
 
-Example usage 
+Example usage
 -------------
 
 Simple 6-digit HOTP code:
@@ -14,7 +16,7 @@ import "onetime"
 
 var secret = []byte("SOME_SECRET")
 var counter = 123456
-var otp = onetime.Simple(6) 
+var otp = onetime.Simple(6)
 var code = otp.HOTP(secret, counter)
 ```
 
@@ -23,7 +25,7 @@ Google authenticator style 8-digit TOTP code:
 import "onetime"
 
 var secret = []byte("SOME_SECRET")
-var otp = onetime.Simple(8) 
+var otp = onetime.Simple(8)
 var code = otp.TOTP(secret)
 ```
 
@@ -38,7 +40,7 @@ import (
 var secret = []byte("SOME_SECRET")
 var ts, _ = time.ParseDuration("5s")
 var t = time.Date(2000, time.January, 1, 0, 0, 0, 0, time.UTC)
-var otp = onetime.OneTimePassword{Digit: 9, TimeStep: ts, BaseTime: t, Hash: sha256.New} 
+var otp = onetime.OneTimePassword{Digit: 9, TimeStep: ts, BaseTime: t, Hash: sha256.New}
 var code = otp.TOTP(secret)
 ```
 
