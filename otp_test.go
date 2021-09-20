@@ -27,7 +27,7 @@ func TestHOTP(t *testing.T) {
 	}
 	secret := []byte("12345678901234567890")
 
-	otp, _ := Simple(6)
+	otp, _ := New(6)
 
 	for i, exp := range expected {
 		if v := otp.HOTP(secret, uint64(i)); v != exp {

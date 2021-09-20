@@ -10,7 +10,7 @@ func Example_simple() {
 	// Simple 6-digit HOTP code:
 	var secret = []byte("SOME_SECRET")
 	var counter uint64 = 123456
-	var otp, _ = Simple(6)
+	var otp, _ = New(6)
 	var code = otp.HOTP(secret, counter)
 	fmt.Println(code)
 	// Output:
@@ -20,7 +20,7 @@ func Example_simple() {
 func Example_authenticator() {
 	// Google authenticator style 8-digit TOTP code:
 	var secret = []byte("SOME_SECRET")
-	var otp, _ = Simple(8)
+	var otp, _ = New(8)
 	var code = otp.TOTP(secret)
 	fmt.Println(code)
 }
