@@ -86,6 +86,15 @@ func (otp *OneTimePassword) GOTP(secret string) (code string, err error) {
 	return
 }
 
+// GTimeLeft returns the google authenticator style remaining time as integer
+func (otp *OneTimePassword) GTimeLeft() int {
+	secsSinceBase := uint64(time.Since(otp.BaseTime).Seconds())
+	secStep := uint64(otp.TimeStep.Seconds())
+	secsRemaining := secStep - (secsSinceBase % secStep)
+
+	return int(secsRemaining)
+}
+
 // Pprint returns a given code "pretty printed", i.e. divided in two or three blocks
 func (otp *OneTimePassword) PPrint(code string) string {
 	blocksize := 3
