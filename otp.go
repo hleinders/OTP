@@ -81,7 +81,11 @@ func dt(hs []byte) []byte {
 // from a secret with 30 sec. interval time
 func (otp *OneTimePassword) GOTP(secret string) (code string, err error) {
 	sec_decoded, err := base32.StdEncoding.DecodeString(secret)
-	code = fmt.Sprintf("%06s", strconv.FormatUint(uint64(otp.TOTP(sec_decoded)), 10))
+	if err != nil {
+		err = errors.New("secret not valid")
+	} else {
+		code = fmt.Sprintf("%06s", strconv.FormatUint(uint64(otp.TOTP(sec_decoded)), 10))
+	}
 
 	return
 }
